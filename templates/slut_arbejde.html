@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Slut Arbejde{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('slut_arbejde') }}" method="POST">
+  <button type="submit" class="button">SLUT ARBEJDE</button>
+</form>
+<div id="timer" style="margin-top: 20px; font-size: 20px;">00:00:00</div>
+
+<script>
+  let timerInterval;
+  let startTime = sessionStorage.getItem('startTime');
+
+  if (!startTime) {
+    startTime = new Date().getTime();
+    sessionStorage.setItem('startTime', startTime);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(function() {
+      let now = new Date().getTime();
+      let elapsedTime = now - startTime;
+
+      let hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+      document.getElementById("timer").innerHTML = 
+        (hours < 10 ? "0" : "") + hours + ":" + 
+        (minutes < 10 ? "0" : "") + minutes + ":" + 
+        (seconds < 10 ? "0" : "") + seconds;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    sessionStorage.removeItem('startTime');
+  }
+
+  window.onload = function() {
+    startTimer();
+  };
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Start Arbejde{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('start_timer') }}" method="POST">
+  <input type="hidden" name="ip_adresse" value="{{ ip_adresse }}">
+  <button type="submit" class="button">START ARBEJDE</button>
+</form>
+{% endblock %}
